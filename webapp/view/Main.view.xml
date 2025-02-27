@@ -1,0 +1,288 @@
+<mvc:View xmlns:table="sap.ui.table"
+    xmlns:filterbar="sap.ui.comp.filterbar" controllerName="com.btc.planfiiliverimlilik.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page title="{i18n>title}">
+        <content >
+            <filterbar:FilterBar showFilterConfiguration="false" search="onFilterBarSearch" filterContainerWidth="20rem" useToolbar="false">
+                <filterbar:filterGroupItems>
+                    <filterbar:FilterGroupItem groupName="A" name="Proje" label="Proje" mandatory="true" visibleInFilterBar="true">
+                        <filterbar:control>
+                            <MultiInput id="idPypMultiInput" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="_prepareValueHelpDialog($event, 'PypSH')" placeholder="Proje seçiniz"></MultiInput>
+                        </filterbar:control>
+                    </filterbar:FilterGroupItem>
+                </filterbar:filterGroupItems>
+            </filterbar:FilterBar>
+
+            <table:Table rows="{jsonModel>/Table}" enableSelectAll="false" selectionMode="None" threshold="50" alternateRowColors="true" fixedColumnCount="{=${device>/system/phone} ? 0 : 2 }" visibleRowCount="20">
+                <table:noData>
+                    <MessagePage text="Proje Seçiniz" icon="sap-icon://filter" description="" title="Veri yok">
+                    </MessagePage>
+                </table:noData>
+                <table:extension>
+                    <OverflowToolbar >
+                        <ToolbarSpacer ></ToolbarSpacer>
+                        <Button icon="sap-icon://excel-attachment" type="Success" press="_exportExcell($event)" enabled="{=${jsonModel>/Table}.length >= 1 ? true : false }"/>
+                    </OverflowToolbar>
+                </table:extension>
+                <table:columns>
+                    <table:Column autoResizable="true" filtered="true" filterProperty="Rproj" sortProperty="Rproj" width="auto">
+                        <table:label>
+                            <Label text="Proje" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <!-- <ObjectStatus text="{jsonModel>Rproj}" state="Error"></ObjectStatus> -->
+                            <Text text="{jsonModel>Rproj}" class="projTextClass"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="" autoResizable="true" filtered="true" filterProperty="ModulId" sortProperty="ModulId" width="auto">
+                        <table:label>
+                            <Label text="Modül" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>ModulId}" state="Information"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Sözleşme Planlanan Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanSozlesme}" state="Warning"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Planlanan Ek CR Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanEkcr}" state="Success"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Planlanan Toplam Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanToplam}" state="None"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 01 Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili01}" state="Error"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Kalan Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Kalan}" state="Information"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 01 Onaylanmamış Saat" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili01Onaysiz}" state="Warning"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Modül/Proje Oran" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>ModulProjeOran}" state="Success"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 01 Oran" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>FiiliOran01}" state="None"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 02" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili02}" state="Error"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 03" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili03}" state="Information"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 04" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili04}" state="Warning"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili Toplam" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>FiiliToplam}" state="Success"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Modül Verimlilik" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>ModulVerimlilik}" state="None"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Sözleşme Planlanan Gün" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanSozlesmeGun}" state="Error"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Planlanan Ek CR Gün" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanEkcrGun}" state="Information"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Planlanan Toplam Gün" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>PlanToplamGun}" state="Warning"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Fiili 01 Gün" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>Fiili01Gun}" state="Success"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                    <table:Column label="">
+                        <table:label>
+                            <Label text="Kalan Gün" design="Bold" wrapping="true"></Label>
+                        </table:label>
+                        <table:template>
+                            <ObjectStatus text="{jsonModel>KalanGun}" state="None"></ObjectStatus>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+            <!-- <Table id="idTable" items="{jsonModel>/Table}" growing="true" growingScrollToLoad="true" growingThreshold="50" sticky="ColumnHeaders,HeaderToolbar">
+                <headerToolbar>
+                    <OverflowToolbar >
+                        <ToolbarSpacer ></ToolbarSpacer>
+                        <Button icon="sap-icon://excel-attachment" type="Success" press="_exportExcell($event)" enabled="{=${jsonModel>/Table}.length >= 1 ? true : false }"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Proje" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Modül" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Sözleşme Planlanan Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Planlanan Ek CR Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Planlanan Toplam Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 01 Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Kalan Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 01 Onaylanmamış Saat" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Modül/Proje Oran" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 01 Oran" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 02" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 03" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili 04" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true">
+                        <Label text="Fiili Toplam" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Modül Verimlilik" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Sözleşme Planlanan Gün" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Planlanan Ek CR Gün" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Planlanan Toplam Gün" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Fiili 01 Gün" design="Bold" wrapping="true"/>
+                    </Column>
+                    <Column minScreenWidth="Desktop" demandPopin="true">
+                        <Label text="Kalan Gün" design="Bold" wrapping="true"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem >
+                        <ObjectStatus text="{jsonModel>Rproj}" state="Error"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>ModulId}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanSozlesme}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanEkcr}" state="Success"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanToplam}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili01}" state="Error"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Kalan}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili01Onaysiz}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="%{jsonModel>ModulProjeOran}" state="Success"></ObjectStatus>
+                        <ObjectStatus text="%{jsonModel>FiiliOran01}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili02}" state="Error"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili03}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili04}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>FiiliToplam}" state="Success"></ObjectStatus>
+                        <ObjectStatus text="%{jsonModel>ModulVerimlilik}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanSozlesmeGun}" state="Error"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanEkcrGun}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>PlanToplamGun}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>Fiili01Gun}" state="Success"></ObjectStatus>
+                        <ObjectStatus text="{jsonModel>KalanGun}" state="None"></ObjectStatus>
+                    </ColumnListItem>
+                </items>
+            </Table> -->
+        </content>
+    </Page>
+</mvc:View>

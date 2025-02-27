@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV" xml:lang="tr" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="GetData" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Rproj"/>
+                </Key>
+                <Property Name="Rproj" Type="Edm.String" Nullable="false" MaxLength="24" sap:label="PYP öğesi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ModulId" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="Modül" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanSozlesme" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Planlanan saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanEkcr" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Planlanan saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanToplam" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Planlanan saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili01" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Kalan" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Kalan saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili01Onaysiz" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ModulProjeOran" Type="Edm.Decimal" Nullable="false" Precision="7" Scale="2" sap:label="PYP Oranı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FiiliOran01" Type="Edm.Decimal" Nullable="false" Precision="7" Scale="2" sap:label="Fiili/Planlı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili02" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili03" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili04" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FiiliToplam" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Fiili saat" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ModulVerimlilik" Type="Edm.Decimal" Nullable="false" Precision="7" Scale="2" sap:label="Fiili/Planlı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanSozlesmeGun" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Gün" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanEkcrGun" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Gün" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PlanToplamGun" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Gün" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Fiili01Gun" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Gün" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="KalanGun" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="3" sap:label="Gün" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="PypSH" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Posid"/>
+                </Key>
+                <Property Name="LvPypMi" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Karakter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Post1" Type="Edm.String" Nullable="false" MaxLength="40" sap:label="Tanım" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Posid" Type="Edm.String" Nullable="false" MaxLength="24" sap:label="PYP öğesi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="GetDataSet" EntityType="ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV.GetData" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="PypSHSet" EntityType="ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV.PypSH" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://btcfioridev.btctrbasis.local/sap/opu/odata/sap/ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://btcfioridev.btctrbasis.local/sap/opu/odata/sap/ZMB_OD_PLAN_FIILI_VERIMLILIK_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
