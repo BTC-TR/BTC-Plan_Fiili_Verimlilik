@@ -8,13 +8,14 @@
                 <filterbar:filterGroupItems>
                     <filterbar:FilterGroupItem groupName="A" name="Proje" label="Proje" mandatory="true" visibleInFilterBar="true">
                         <filterbar:control>
-                            <MultiInput id="idPypMultiInput" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="_prepareValueHelpDialog($event, 'PypSH')" placeholder="Proje seçiniz"></MultiInput>
+                            <MultiInput id="idPypMultiInput" valueHelpOnly="true" showValueHelp="true" valueHelpRequest="_prepareValueHelpDialog($event, 'PypSH')" placeholder="Proje seçiniz" tokenUpdate="onMultiInputTokenUpdate"></MultiInput>
                         </filterbar:control>
                     </filterbar:FilterGroupItem>
                 </filterbar:filterGroupItems>
             </filterbar:FilterBar>
 
-            <table:Table rows="{jsonModel>/Table}" enableSelectAll="false" selectionMode="None" threshold="50" alternateRowColors="true" fixedColumnCount="{=${device>/system/phone} ? 0 : 2 }" visibleRowCount="20">
+
+            <table:Table rows="{jsonModel>/Table}" enableSelectAll="false" selectionMode="None" threshold="50" alternateRowColors="true" fixedColumnCount="{=${device>/system/phone} ? 0 : 2 }" visibleRowCount="20" visible="{=${device>/system/phone} ? false : true}" >
                 <table:noData>
                     <MessagePage text="Proje Seçiniz" icon="sap-icon://filter" description="" title="Veri yok">
                     </MessagePage>
@@ -28,7 +29,7 @@
                 <table:columns>
                     <table:Column autoResizable="true" filtered="true" filterProperty="Rproj" sortProperty="Rproj" width="auto">
                         <table:label>
-                            <Label text="Proje" design="Bold" wrapping="true"></Label>
+                            <Label text="Proje" design="Bold" wrapping="true" vAlign="Middle"></Label>
                         </table:label>
                         <table:template>
                             <!-- <ObjectStatus text="{jsonModel>Rproj}" state="Error"></ObjectStatus> -->
@@ -40,7 +41,7 @@
                             <Label text="Modül" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>ModulId}" state="Information"></ObjectStatus>
+                            <Text text="{jsonModel>ModulId}" class="projTextClass"></Text>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -48,7 +49,7 @@
                             <Label text="Sözleşme Planlanan Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanSozlesme}" state="Warning"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanSozlesme', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -56,7 +57,7 @@
                             <Label text="Planlanan Ek CR Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanEkcr}" state="Success"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanEkcr', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -64,7 +65,7 @@
                             <Label text="Planlanan Toplam Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanToplam}" state="None"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanToplam', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -72,7 +73,7 @@
                             <Label text="Fiili 01 Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili01}" state="Error"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili01', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -80,7 +81,7 @@
                             <Label text="Kalan Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Kalan}" state="Information"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Kalan', formatter:'.formatter.numberUnit'}" state="{path:'jsonModel>Kalan', formatter:'.formatter.eksiZaman'}"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -88,63 +89,63 @@
                             <Label text="Fiili 01 Onaylanmamış Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili01Onaysiz}" state="Warning"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili01Onaysiz', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Modül/Proje Oran" design="Bold" wrapping="true"></Label>
+                            <Label text="Modül/Proje Oran %" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>ModulProjeOran}" state="Success"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>ModulProjeOran', formatter:'.formatter.numberUnit'} %" state="Success"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Fiili 01 Oran" design="Bold" wrapping="true"></Label>
+                            <Label text="Fiili 01 Oran %" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>FiiliOran01}" state="None"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>FiiliOran01', formatter:'.formatter.numberUnit'} %" state="{path:'jsonModel>FiiliOran01', formatter:'.formatter.eksiOran'}"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Fiili 02" design="Bold" wrapping="true"></Label>
+                            <Label text="Fiili 02 Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili02}" state="Error"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili02', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Fiili 03" design="Bold" wrapping="true"></Label>
+                            <Label text="Fiili 03 Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili03}" state="Information"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili03', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Fiili 04" design="Bold" wrapping="true"></Label>
+                            <Label text="Fiili 04 Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili04}" state="Warning"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili04', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Fiili Toplam" design="Bold" wrapping="true"></Label>
+                            <Label text="Fiili Toplam Saat" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>FiiliToplam}" state="Success"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>FiiliToplam', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
                         <table:label>
-                            <Label text="Modül Verimlilik" design="Bold" wrapping="true"></Label>
+                            <Label text="Modül Verimlilik %" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>ModulVerimlilik}" state="None"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>ModulVerimlilik', formatter:'.formatter.numberUnit'} %" state="Success"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -152,7 +153,7 @@
                             <Label text="Sözleşme Planlanan Gün" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanSozlesmeGun}" state="Error"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanSozlesmeGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -160,7 +161,7 @@
                             <Label text="Planlanan Ek CR Gün" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanEkcrGun}" state="Information"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanEkcrGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -168,7 +169,7 @@
                             <Label text="Planlanan Toplam Gün" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>PlanToplamGun}" state="Warning"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>PlanToplamGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -176,7 +177,7 @@
                             <Label text="Fiili 01 Gün" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>Fiili01Gun}" state="Success"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>Fiili01Gun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
                         </table:template>
                     </table:Column>
                     <table:Column label="">
@@ -184,12 +185,13 @@
                             <Label text="Kalan Gün" design="Bold" wrapping="true"></Label>
                         </table:label>
                         <table:template>
-                            <ObjectStatus text="{jsonModel>KalanGun}" state="None"></ObjectStatus>
+                            <ObjectStatus text="{path:'jsonModel>KalanGun', formatter:'.formatter.numberUnit'}" state="{path:'jsonModel>KalanGun', formatter:'.formatter.eksiZaman'}"></ObjectStatus>
                         </table:template>
                     </table:Column>
                 </table:columns>
             </table:Table>
-            <!-- <Table id="idTable" items="{jsonModel>/Table}" growing="true" growingScrollToLoad="true" growingThreshold="50" sticky="ColumnHeaders,HeaderToolbar">
+
+            <Table id="idTable" items="{jsonModel>/Table}" growing="true" growingScrollToLoad="true" growingThreshold="50" sticky="ColumnHeaders,HeaderToolbar" alternateRowColors="true" visible="{=${device>/system/phone} ? true : false}">
                 <headerToolbar>
                     <OverflowToolbar >
                         <ToolbarSpacer ></ToolbarSpacer>
@@ -260,29 +262,29 @@
                 </columns>
                 <items>
                     <ColumnListItem >
-                        <ObjectStatus text="{jsonModel>Rproj}" state="Error"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>ModulId}" state="Information"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanSozlesme}" state="Warning"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanEkcr}" state="Success"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanToplam}" state="None"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili01}" state="Error"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Kalan}" state="Information"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili01Onaysiz}" state="Warning"></ObjectStatus>
-                        <ObjectStatus text="%{jsonModel>ModulProjeOran}" state="Success"></ObjectStatus>
-                        <ObjectStatus text="%{jsonModel>FiiliOran01}" state="None"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili02}" state="Error"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili03}" state="Information"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili04}" state="Warning"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>FiiliToplam}" state="Success"></ObjectStatus>
-                        <ObjectStatus text="%{jsonModel>ModulVerimlilik}" state="None"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanSozlesmeGun}" state="Error"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanEkcrGun}" state="Information"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>PlanToplamGun}" state="Warning"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>Fiili01Gun}" state="Success"></ObjectStatus>
-                        <ObjectStatus text="{jsonModel>KalanGun}" state="None"></ObjectStatus>
+                        <Text text="{jsonModel>Rproj}" class="projTextClass"/>
+                        <Text text="{jsonModel>ModulId}" class="projTextClass"></Text>
+                        <ObjectStatus text="{path:'jsonModel>PlanSozlesme', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>PlanEkcr', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>PlanToplam', formatter:'.formatter.numberUnit'}" state="Warning"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili01', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Kalan', formatter:'.formatter.numberUnit'}" state="{path:'jsonModel>Kalan', formatter:'.formatter.eksiZaman'}"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili01Onaysiz', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>ModulProjeOran', formatter:'.formatter.numberUnit'} %" state="Success"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>FiiliOran01', formatter:'.formatter.numberUnit'} %" state="{path:'jsonModel>FiiliOran01', formatter:'.formatter.eksiOran'}"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili02', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili03', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili04', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>FiiliToplam', formatter:'.formatter.numberUnit'}" state="Information"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>ModulVerimlilik', formatter:'.formatter.numberUnit'} %" state="Success"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>PlanSozlesmeGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>PlanEkcrGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>PlanToplamGun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>Fiili01Gun', formatter:'.formatter.numberUnit'}" state="None"></ObjectStatus>
+                        <ObjectStatus text="{path:'jsonModel>KalanGun', formatter:'.formatter.numberUnit'}" state="{path:'jsonModel>KalanGun', formatter:'.formatter.eksiZaman'}"></ObjectStatus>
                     </ColumnListItem>
                 </items>
-            </Table> -->
+            </Table>
         </content>
     </Page>
 </mvc:View>

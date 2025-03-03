@@ -20,6 +20,6 @@ builder:
           name: Z_PLAN_FIIL_VER
           description: Plan-Fiili Verimlilik Rapor
           package: ZFIORI
-          transport: BGDK901912
+          transport: BGDK901920
         exclude:
           - /test/

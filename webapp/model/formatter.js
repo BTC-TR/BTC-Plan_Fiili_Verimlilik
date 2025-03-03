@@ -14,11 +14,38 @@ sap.ui.define([
             }
 
             var isFloat = sValue.split(".");
-            if (isFloat[1] === "000") {
+            if (isFloat[1] === "000" || isFloat[1] === "00") {
                 return parseInt(sValue);
             } else {
                 return parseFloat(sValue).toFixed(2);
             }
         },
+
+        eksiZaman: function (sValue) {
+            if (!sValue) {
+                return "None"
+            }
+            let state = "None",
+                value = sValue.includes("-");
+
+            if (!value) {
+                return state = "Success"
+            } else {
+                return state = "Error"
+            }
+        },
+        eksiOran: function (sValue) {
+            if (!sValue) {
+                return "None"
+            }
+            let state = "None",
+                value = parseInt(sValue);
+
+            if (value <= 100) {
+                return state = "Success"
+            } else {
+                return state = "Error"
+            }
+        }
     }
 });

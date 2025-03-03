@@ -109,9 +109,11 @@ sap.ui.define([
                 aFilters = [
                     new Filter("LvPypMi", FilterOperator.EQ, "P")
                 ];
+            this.oPypMultiInput = this.getView().byId("idPypMultiInput");
 
             this._readMultiData("/PypSHSet", aFilters, this._oDataModel).then((oData) => {
                 that._jsonModel.setProperty("/PypSH", oData.results);
+                that._prepareValueHelpDialog("", "PypSH")
             }).finally(() => {
                 sap.ui.core.BusyIndicator.hide();
             });
@@ -135,26 +137,43 @@ sap.ui.define([
         },
 
         _exportExcell: function (oEvent) {
-            const oTable = oEvent.getSource().getParent().getParent();
-            const data = oTable.getBinding("rows");
-            const aColumnss = this._createColumnConfig();
-            const oSettings = {
+            var oTable = oEvent.getSource().getParent().getParent(),
+                data = [];
+            if (oTable.getBinding("rows")) {
+                data = oTable.getBinding("rows");
+            } else {
+                data = oTable.getBinding("items");
+            }
+
+            var aColumnss = this._createColumnConfig();
+            var oSettings = {
                 dataSource: data,
                 fileName: 'Plan-Fiili_Verimlilik_Raporu.xlsx',
                 workbook: {
                     columns: aColumnss
                 },
             };
-            const oSheet = new Spreadsheet(oSettings).build().finally(() => {
+            var oSheet = new Spreadsheet(oSettings).build().finally(() => {
                 return;
             });
         },
 
         _prepareValueHelpDialog: function (oEvent, fragmentName) {
-            this._valueHelpInput = oEvent.getSource();
+            oEvent !== "" ? this._valueHelpInput = oEvent.getSource() : this._valueHelpInput = this.oPypMultiInput;
+            // this._valueHelpInput = oEvent.getSource()
+            let that = this;
             if (!this._valueHelpDialog) {
                 this._valueHelpDialog = sap.ui.xmlfragment(this.getView().getId(), "com.btc.planfiiliverimlilik.view.fragments.valueHelp." + fragmentName, this);
                 this.getView().addDependent(this._valueHelpDialog);
+            }
+            if (this._valueHelpInput.getTokens().length > 0) {
+                this._valueHelpDialog.getItems().forEach((item) => {
+                    that._valueHelpInput.getTokens().forEach((item2) => {
+                        if (item2.getText() === item.getBindingContext("jsonModel").getObject().Posid) {
+                            item.setSelected(true)
+                        }
+                    })
+                })
             }
             this._valueHelpDialog.open();
             this._afterFocus(this._valueHelpDialog);
@@ -188,6 +207,8 @@ sap.ui.define([
                 oSelectedItems = oEvent.getParameter("selectedItems"),
                 sInputId = this._valueHelpInput.getId();
             if (!oSelectedItem) {
+                this._valueHelpInput.destroyTokens();
+                this._getData(this._getFilter())
                 return;
             }
 
@@ -218,75 +239,75 @@ sap.ui.define([
             }, {
                 label: "Sözleşme Planlanan Saat",
                 property: "PlanSozlesme",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Planlanan Ek CR Saat",
                 property: "PlanEkcr",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Planlanan Toplam Saat",
                 property: "PlanToplam",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Fiili 01 Saat",
                 property: "Fiili01",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Kalan Saat",
                 property: "Kalan",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Fiili 01 Onaylanmamış Saat",
                 property: "Fiili01Onaysiz",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Modül/Proje Oran",
+                label: "Modül/Proje Oran %",
                 property: "ModulProjeOran",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Fiili 01 Oran",
+                label: "Fiili 01 Oran %",
                 property: "FiiliOran01",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Fiili 02",
+                label: "Fiili 02 Saat",
                 property: "Fiili02",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Fiili 03",
+                label: "Fiili 03 Saat",
                 property: "Fiili03",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Fiili 04",
+                label: "Fiili 04 Saat",
                 property: "Fiili04",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Fiili Toplam",
+                label: "Fiili Toplam Saat",
                 property: "FiiliToplam",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
-                label: "Modül Verimlilik",
+                label: "Modül Verimlilik %",
                 property: "ModulVerimlilik",
                 type: sap.ui.export.EdmType.String
             }, {
                 label: "Sözleşme Planlanan Gün",
                 property: "PlanSozlesmeGun",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Planlanan Ek CR Gün",
                 property: "PlanEkcrGun",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Planlanan Toplam Gün",
                 property: "PlanToplamGun",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Fiili 01 Gün",
                 property: "Fiili01Gun",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }, {
                 label: "Kalan Gün",
                 property: "KalanGun",
-                type: sap.ui.export.EdmType.String
+                type: sap.ui.export.EdmType.Number
             }];
         }
     });

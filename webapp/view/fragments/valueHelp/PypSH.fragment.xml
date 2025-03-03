@@ -1,6 +1,6 @@
 <c:FragmentDefinition xmlns="sap.m"
 	xmlns:c="sap.ui.core">
-	<SelectDialog items="{path:'jsonModel>/PypSH', length: 9999}" growingThreshold="1000" title="{i18n>PYP_SH}" cancel="onSelectDialogCancel" confirm="onSelectDialogConfirm" liveChange="onSelectDialogSearch" search="onSelectDialogSearch" multiSelect="true" rememberSelections="true" showClearButton="true">
+	<SelectDialog items="{path:'jsonModel>/PypSH', length: 9999, sorter:[{path:'Posid'}]}" growing="false" title="{i18n>PYP_SH}" cancel="onSelectDialogCancel" confirm="onSelectDialogConfirm" liveChange="onSelectDialogSearch" search="onSelectDialogSearch" multiSelect="true" showClearButton="true">
 		<StandardListItem title="{jsonModel>Posid}" description="{jsonModel>Post1}"></StandardListItem>
 	</SelectDialog>
 </c:FragmentDefinition>
